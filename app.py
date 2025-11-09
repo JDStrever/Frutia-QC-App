@@ -10,10 +10,17 @@ from sqlalchemy import func
 import logging
 
 # Basic setup
-app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET", "change-me-in-prod")
+# Basic setup (explicit template/static folders)
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Force Flask to load templates and static files from exact folders in the repo root
+template_dir = os.path.join(basedir, "templates")
+static_dir = os.path.join(basedir, "static")
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+
+app.secret_key = os.environ.get("FLASK_SECRET", "change-me-in-prod")
 db_path = os.environ.get("QC_DB_PATH", os.path.join(basedir, "qc.db"))
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
