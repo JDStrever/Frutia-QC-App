@@ -1,0 +1,5 @@
+Flask>=2.0
+SQLAlchemy>=1.4
+Flask-SQLAlchemy>=2.5
+gunicorn>=20.1
+python-dotenv>=0.20
