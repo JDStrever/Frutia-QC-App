@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crate #{{ crate.id }} — QC{% endblock %}
+{% block content %}
+  <h2>Crate #{{ crate.id }}</h2>
+  <dl class="details">
+    <dt>Run number</dt><dd>{{ crate.run_number }}</dd>
+    <dt>PUC</dt><dd>{{ crate.puc }}</dd>
+    <dt>Farm</dt><dd>{{ crate.farm_name }}</dd>
+    <dt>Commodity</dt><dd>{{ crate.commodity }}</dd>
+    <dt>Variety</dt><dd>{{ crate.variety }}</dd>
+    <dt>Class</dt><dd>{{ crate.grade_class }}</dd>
+    <dt>Size</dt><dd>{{ crate.size }}</dd>
+    <dt>Weight</dt><dd>{{ "%.2f"|format(crate.weight or 0) }} kg</dd>
+    <dt>Date received</dt><dd>{{ crate.date_received }}</dd>
+    <dt>Inspector notes</dt><dd><pre>{{ crate.inspector_notes or "–" }}</pre></dd>
+  </dl>
+
+  <p><a href="{{ url_for('dashboard') }}">Back to dashboard</a></p>
+{% endblock %}
