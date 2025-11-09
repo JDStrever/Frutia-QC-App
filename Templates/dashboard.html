@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — QC{% endblock %}
+{% block content %}
+  <h2>Dashboard</h2>
+  <div class="filters">
+    <form method="get" action="{{ url_for('dashboard') }}">
+      <input name="run" placeholder="Run" value="{{ filters.run or '' }}">
+      <input name="puc" placeholder="PUC" value="{{ filters.puc or '' }}">
+      <input name="commodity" placeholder="Commodity" value="{{ filters.commodity or '' }}">
+      <input name="farm" placeholder="Farm" value="{{ filters.farm or '' }}">
+      <button type="submit">Filter</button>
+      <a href="{{ url_for('dashboard') }}" class="btn-link">Clear</a>
+    </form>
+  </div>
+
+  <div class="summary">
+    <strong>Total crates:</strong> {{ totals.count }} &nbsp; | &nbsp;
+    <strong>Total weight:</strong> {{ "%.2f"|format(totals.total_weight) }} kg
+  </div>
+
+  {% if crates %}
+    <table class="list">
+      <thead>
+        <tr>
+          <th>ID</th><th>Date</th><th>Run</th><th>PUC</th><th>Farm</th><th>Commodity</th><th>Variety</th><th>Weight</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for c in crates %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.date_received }}</td>
+          <td>{{ c.run_number or "" }}</td>
+          <td>{{ c.puc }}</td>
+          <td>{{ c.farm_name }}</td>
+          <td>{{ c.commodity }}</td>
+          <td>{{ c.variety or "" }}</td>
+          <td>{{ "%.2f"|format(c.weight or 0) }}</td>
+          <td><a href="{{ url_for('crate_detail', crate_id=c.id) }}">Open</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No crates yet. <a href="{{ url_for('add_crate') }}">Add one</a>.</p>
+  {% endif %}
+{% endblock %}
